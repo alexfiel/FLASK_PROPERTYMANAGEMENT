@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{%block content %}
+    <strong>Search For : {{ tag}}</strong>
+            <form class="form-inline my-2 my-lg-0" action="" method="POST">
+                <input class="form-control mr-sm-2" type="text" name="tag" id="tag" placeholder="Search" arial-label="Search">
+                <input type="submit" value="Search" class="form-control btn btn-primary " name="">
+            </form>
+
+    {%for project in projects%}
+    
+    <article class="media content-section">
+        <div class="media">
+            <img class="img-thumbnail" src="{{ url_for('static', filename='profilepics/' + project.image_file) }}" />
+                
+        </div>
+        <div class="media-body">
+                <h2><a class="article-title" href="{{ url_for('project', proj_id=project.id)}}">{{ project.name }}</a></h2>
+                <p class="article-content">{{ project.location }}</p>
+                <small class="text-muted">Category:{{ project.category }}</small>
+                <p class="article-content">{{ project.description }}</p>
+                <div class="article-metadata">
+                    <p>Developer:<a class="mr-2" href="#">{{ project.owner }}</a></p>  
+                </div>
+        </div>
+    </article>
+
+    {% endfor %}
+{% endblock %}
