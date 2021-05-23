@@ -110,8 +110,7 @@ def account():
 @login_required
 def new_project():
     form = ProjectForm()
-    if form.validate_on_submit():
-                              
+    if form.validate_on_submit():                      
         project = Project(name=form.name.data, location=form.location.data, 
                             owner=form.owner.data,category=form.category.data,
                             description=form.description.data,author=current_user)
