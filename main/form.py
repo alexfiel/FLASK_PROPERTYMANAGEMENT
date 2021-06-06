@@ -4,7 +4,7 @@ from flask_login import current_user
 from flask_wtf.recaptcha import validators
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from main.models import User, Project 
+from main.models import User, Project, Realty 
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', 
@@ -67,8 +67,25 @@ class ProjectForm(FlaskForm):
     picture = FileField('Upload project Logo', validators=[FileAllowed(['jpg','png'])])
     submit = SubmitField('Post')
 
-    def validate_projectname(self, name):
+    def validate_name(self, name):
         if name.data != Project.name:
             project = Project.query.filter_by(name=name.data).first()
             if project:
                 raise ValidationError('Project already exist, Choose another one')
+
+
+class RealtyForm(FlaskForm):
+    name=StringField('Name', validators=[DataRequired()])
+    email=StringField('Email', validators=[DataRequired()])
+    address=StringField('Address', validators=[DataRequired()])
+    contact=StringField('Contact No.',validators=[DataRequired()])
+    brokername=StringField('Name of Broker', validators=[DataRequired()])
+    prcnumber=StringField('PRC No.', validators=[DataRequired()])
+    logo_file = FileField('Upload Realty Logo', validators=[FileAllowed('jpg','png')])
+    submit = SubmitField('Post')
+
+    def validate_name(self, name):
+        if name.data != Realty.name:
+            realty = Realty.query.filter_by(name=name.data).first()
+            if realty:
+                raise ValidationError('Realty Already Registered, Choose another one')

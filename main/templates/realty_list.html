@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{%block content %}
+    {%for realty in realties%}
+    
+    <article class="media content-section">
+        <div class="media">
+            <img class="img-thumbnail" src="{{ url_for('static', filename='profilepics/' + realty.logo_file) }}" />
+                
+        </div>
+        <div class="media-body">
+                <h2><a class="article-title" href="{{ url_for('realty', realty_id=realty.id)}}">{{ realty.name }}</a></h2>
+                <p class="article-content">{{ realty.email }}</p>
+                <p class="article-content">{{ realty.address }}</p>
+                <p class="article-content">{{ realty.contact }}</p>
+                <p class="article-content">{{ realty.brokername }}</p>
+                <p class="article-content">{{ realty.prcnumber }}</p>
+                <small class="text-muted">Category:{{ realty.date_registered }}</small>
+                <div class="article-metadata">
+                    <p>Developer:<a class="mr-2" href="#">{{ realty.brokername }}</a></p>  
+                </div>
+        </div>
+    </article>
+
+    {% endfor %}
+{% endblock %}

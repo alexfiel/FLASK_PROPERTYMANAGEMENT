@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 import secrets
 from PIL import Image
@@ -5,8 +6,8 @@ from flask import Flask, render_template,url_for, flash, redirect, request, abor
 from wtforms.validators import URL
 from main import app, db, bcrypt
 from main import form
-from main.form import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm
-from main.models import User, Project
+from main.form import RealtyForm, RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm
+from main.models import User, Project, Realty
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/',methods=['GET','POST'])
@@ -15,6 +16,12 @@ def home():
     projects = Project.query.all()
    # project_image=url_for('static', filename='profilepics/' + projects.image_file)
     return render_template('home.html',projects=projects)
+
+
+@app.route('/realty',methods=['GET','POST'])
+def realty():
+    realties = Realty.query.all()
+    return render_template('realty_list.html',realties=realties)
     
 
 @app.route('/about')
@@ -121,6 +128,22 @@ def new_project():
         return redirect(url_for('home'))
     return render_template('create_project.html', title='New Project', 
                             form=form, legend='New Project')
+
+
+@app.route('/realty/new', methods=['GET', 'POST'])
+@login_required
+def new_realty():
+    form = RealtyForm()
+    if form.validate_on_submit():
+        realty=Realty(name=form.name.data,email=form.email.data,
+                        address=form.address.data,contact=form.contact.data,
+                        brokername=form.brokername.data,prcnumber=form.prcnumber.data)
+        db.session.add(realty)
+        db.session.commit()
+        flash('New Realty has been registered', 'success')
+        return redirect(url_for('realty'))
+    return render_template('create_realty.html', title='Register New Realty', 
+                            form=form, legend='New Realty')
 
 
 @app.route('/project/<int:proj_id>')

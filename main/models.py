@@ -127,11 +127,13 @@ class Project(db.Model):
 class Realty(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name=db.Column(db.String(150), nullable=False)
+    address=db.Column(db.String(200), nullable=False)
     email=db.Column(db.String(60), nullable=False)
     contact=db.Column(db.String(15), nullable=False)
     logo_file = db.Column(db.String(20), nullable=False, default='default.png')
     brokername=db.Column(db.String(50), nullable=False)
     prcnumber=db.Column(db.String(50),nullable=False)
+    date_registered=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     sales_person = db.relationship('SalesPerson', backref='salesperson', lazy=True)
 
     def __repr__(self):
